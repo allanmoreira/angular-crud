@@ -1,6 +1,6 @@
 <div fxLayout="row" fxLayoutAlign="center" style="padding-top: 10px">
     <div fxLayout="column" fxFlex="1000px">
-        <form class="mt-60" #clientsFrm="ngForm">
+        <form class="mt-60" #clientsFrm="ngForm" (ngSubmit)="salvar()">
             <mat-card>
                 <mat-card-header>
                     <mat-card-title>Formulário de Cadastro</mat-card-title>
@@ -9,34 +9,43 @@
                     <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="16px">
                         <mat-form-field class="full-width">
                             <mat-label>Nome</mat-label>
-                            <input matInput name="name" ngModel required>
+                            <input matInput 
+                                   name="name"
+                                   [(ngModel)]="cliente.nome"
+                                   ngModel required>
                         </mat-form-field>
                     </div>
 
                     <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="16px">
                         <mat-form-field class="full-width">
                             <mat-label>Email</mat-label>
-                            <input matInput name="name" ngModel required>
+                            <input matInput
+                                   [(ngModel)]="cliente.email"
+                                   name="email" ngModel required>
                         </mat-form-field>
                     </div>
 
                     <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="16px">
                         <mat-form-field class="full-width">
                             <mat-label>CPF</mat-label>
-                            <input matInput name="name" ngModel required>
+                            <input matInput
+                                   [(ngModel)]="cliente.cpf"
+                                   name="cpf" ngModel required>
                         </mat-form-field>
                     </div>
 
                     <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="16px">
                         <mat-form-field class="full-width">
                             <mat-label>Data de Nascimento</mat-label>
-                            <input matInput name="name" ngModel required>
+                            <input matInput
+                                   [(ngModel)]="cliente.dataNascimento"
+                                   name="dataNascimento" ngModel required>
                         </mat-form-field>
                     </div>
                 </mat-card-content>
 
                 <mat-card-actions>
-                    <button mat-flat-button color="primary" [disabled]="clientsFrm.invalid">
+                    <button mat-flat-button color="primary" [disabled]="clientsFrm.invalid" type="submit">
                         <mat-icon fontIcon="save"></mat-icon>
                         Salvar
                     </button>
