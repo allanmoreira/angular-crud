@@ -15,7 +15,10 @@ export class ClienteService {
     }
 
     pesquisar(nome: string): Cliente[] {
-        return this.getStorage();
+        let clientes = this.getStorage();
+        if(nome)
+            clientes = clientes.filter(cliente => cliente.nome?.toLowerCase().includes(nome.toLowerCase()));
+        return clientes;
     }
 
     private getStorage(): Cliente[] {
