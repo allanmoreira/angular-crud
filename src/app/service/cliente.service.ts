@@ -14,11 +14,25 @@ export class ClienteService {
         localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(storage));
     }
 
+    editar(cliente: Cliente) {
+        const storage = this.getStorage();
+        storage.forEach(storage => {
+            if(storage.id === cliente.id) {
+                Object.assign(storage, cliente);
+            }
+        });
+        localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(storage));
+    }
+
     pesquisar(nome: string): Cliente[] {
         let clientes = this.getStorage();
         if(nome)
             clientes = clientes.filter(cliente => cliente.nome?.toLowerCase().includes(nome.toLowerCase()));
         return clientes;
+    }
+
+    pesquisaPorId(id: string): Cliente | undefined {
+        return this.getStorage().find(cliente => cliente.id === id);
     }
 
     private getStorage(): Cliente[] {

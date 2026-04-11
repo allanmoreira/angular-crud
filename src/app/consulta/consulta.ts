@@ -4,7 +4,7 @@ import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} fr
 import {FormsModule} from "@angular/forms";
 import {MatFormField, MatInput, MatLabel} from "@angular/material/input";
 import {MatIcon} from "@angular/material/icon";
-import {MatButton} from "@angular/material/button";
+import {MatButton, MatIconButton} from "@angular/material/button";
 import {Cliente} from "../cadastro/cliente";
 import {ClienteService} from "../service/cliente.service";
 import {
@@ -16,6 +16,7 @@ import {
     MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
     MatTable
 } from "@angular/material/table";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-consulta',
@@ -41,7 +42,8 @@ import {
         MatHeaderRow,
         MatHeaderRowDef,
         MatRow,
-        MatRowDef
+        MatRowDef,
+        MatIconButton
     ],
   templateUrl: './consulta.html',
   styleUrl: './consulta.scss',
@@ -50,9 +52,11 @@ export class Consulta implements OnInit {
 
     nomeBusca: string = '';
     listaClientes: Cliente[] = [];
-    colunasTable: string[] = ['id', 'nome', 'cpf', 'email', 'dataNascimento'];
+    colunasTable: string[] = ['id', 'nome', 'cpf', 'email', 'dataNascimento', 'acoes'];
 
-    constructor(private clienteService: ClienteService) {}
+    constructor(
+        private clienteService: ClienteService,
+        private router: Router,) {}
 
     ngOnInit(): void {
         this.listaClientes = this.clienteService.pesquisar(this.nomeBusca);
@@ -61,5 +65,9 @@ export class Consulta implements OnInit {
     pesquisar() {
         console.log(this.nomeBusca);
         this.listaClientes = this.clienteService.pesquisar(this.nomeBusca);
+    }
+
+    editar(id: string) {
+        this.router.navigate(['/cadastro'], { queryParams: { id } });
     }
 }
