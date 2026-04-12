@@ -43,4 +43,10 @@ export class ClienteService {
         localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(clientes));
         return clientes;
     }
+
+    deletar(id: string) {
+        let storage = this.getStorage();
+        let novaLista = storage.filter(cliente => cliente.id !== id);
+        localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(novaLista));
+    }
 }

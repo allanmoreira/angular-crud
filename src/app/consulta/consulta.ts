@@ -59,15 +59,23 @@ export class Consulta implements OnInit {
         private router: Router,) {}
 
     ngOnInit(): void {
-        this.listaClientes = this.clienteService.pesquisar(this.nomeBusca);
+        this.pesquisar();
     }
 
     pesquisar() {
-        console.log(this.nomeBusca);
         this.listaClientes = this.clienteService.pesquisar(this.nomeBusca);
     }
 
     editar(id: string) {
         this.router.navigate(['/cadastro'], { queryParams: { id } });
+    }
+
+    confirmaDeletar(cliente: Cliente) {
+        cliente.deletar = true;
+    }
+
+    deletar(id: string){
+        this.clienteService.deletar(id);
+        this.pesquisar();
     }
 }
