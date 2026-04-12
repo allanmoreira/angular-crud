@@ -61,7 +61,7 @@
                             <mat-label>Município</mat-label>
                             <mat-select [(value)]="cliente.municipio">
                                 @for (municipio of municipios; track municipio.codigo_ibge) {
-                                    <mat-option [value]="municipio.codigo_ibge">{{ municipio.nome }}</mat-option>
+                                    <mat-option [value]="municipio.nome">{{ municipio.nome }}</mat-option>
                                 }
                             </mat-select>
                         </mat-form-field>

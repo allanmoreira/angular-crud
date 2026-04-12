@@ -1,4 +1,4 @@
-import {Component, OnInit, inject} from '@angular/core';
+import {Component, OnInit, inject, ChangeDetectorRef} from '@angular/core';
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {FormsModule} from "@angular/forms";
@@ -52,7 +52,8 @@ export class Cadastro implements OnInit {
         private notificacao: NotificacaoComponent,
         private route: ActivatedRoute,
         private router: Router,
-        private brasilApiService: BrasilApiService
+        private brasilApiService: BrasilApiService,
+        private changeDetectorRef: ChangeDetectorRef
     ) {
     }
 
@@ -83,7 +84,10 @@ export class Cadastro implements OnInit {
 
     consultaUFs() {
         this.brasilApiService.getUFs().subscribe({
-            next: estados => this.estados = estados,
+            next: (response) => {
+                this.estados = response;
+                this.changeDetectorRef.detectChanges();
+            },
             error: erro => this.notificacao.notificar(erro.message)
         });
     }
@@ -91,7 +95,10 @@ export class Cadastro implements OnInit {
     consultaMunicipios(event: MatSelectChange){
         let uf = event.value;
         this.brasilApiService.getMunicipios(uf).subscribe({
-            next: response => this.municipios = response,
+            next: (response) => {
+                this.municipios = response;
+                this.changeDetectorRef.detectChanges();
+            },
             error: erro => this.notificacao.notificar(erro.message)
         });
     }
