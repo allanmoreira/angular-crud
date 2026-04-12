@@ -17,6 +17,7 @@ import {
     MatTable
 } from "@angular/material/table";
 import {Router} from "@angular/router";
+import {NotificacaoComponent} from "../notificacao/notificacao.component";
 
 @Component({
   selector: 'app-consulta',
@@ -56,6 +57,7 @@ export class Consulta implements OnInit {
 
     constructor(
         private clienteService: ClienteService,
+        private notificacao: NotificacaoComponent,
         private router: Router,) {}
 
     ngOnInit(): void {
@@ -76,6 +78,7 @@ export class Consulta implements OnInit {
 
     deletar(id: string){
         this.clienteService.deletar(id);
+        this.notificacao.notificar("Cliente deletado com sucesso!");
         this.pesquisar();
     }
 }

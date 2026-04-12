@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 import {FormsModule} from "@angular/forms";
@@ -9,6 +9,8 @@ import {Cliente} from "./cliente";
 import {ClienteService} from "../service/cliente.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {NotificacaoComponent} from "../notificacao/notificacao.component";
 
 @Component({
     selector: 'app-cadastro',
@@ -40,6 +42,7 @@ export class Cadastro implements OnInit{
 
     constructor(
         private clienteService: ClienteService,
+        private notificacao: NotificacaoComponent,
         private route: ActivatedRoute,
         private router: Router) {}
 
@@ -59,7 +62,10 @@ export class Cadastro implements OnInit{
             this.router.navigate(['/consulta']);
         } else {
             this.clienteService.salvar(this.cliente);
+            this.notificacao.notificar("Cliente cadastrado com sucesso!");
         }
         this.cliente = Cliente.newClient();
     }
+
+
 }
