@@ -11,6 +11,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {NotificacaoComponent} from "../notificacao/notificacao.component";
+import {BrasilApiService} from "../service/brasilapi.service";
+import {Estado, Municipio} from "../service/brasilapi.models";
+import {MatOption, MatSelect, MatSelectChange} from "@angular/material/select";
 
 @Component({
     selector: 'app-cadastro',
@@ -27,7 +30,9 @@ import {NotificacaoComponent} from "../notificacao/notificacao.component";
         MatButton,
         MatCardActions,
         MatIcon,
-        NgxMaskDirective
+        NgxMaskDirective,
+        MatSelect,
+        MatOption
     ],
     providers: [
         provideNgxMask()
@@ -35,29 +40,38 @@ import {NotificacaoComponent} from "../notificacao/notificacao.component";
     templateUrl: './cadastro.html',
     styleUrl: './cadastro.scss',
 })
-export class Cadastro implements OnInit{
+export class Cadastro implements OnInit {
 
     cliente: Cliente = Cliente.newClient();
     edicao: boolean = false;
+    estados: Estado[] = [];
+    municipios: Municipio[] = [];
 
     constructor(
         private clienteService: ClienteService,
         private notificacao: NotificacaoComponent,
         private route: ActivatedRoute,
-        private router: Router) {}
+        private router: Router,
+        private brasilApiService: BrasilApiService
+    ) {
+    }
 
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
             let id = params['id'];
             let cliente = this.clienteService.pesquisaPorId(id);
             this.edicao = cliente !== null && cliente !== undefined;
-            if(this.edicao)
+            if (this.edicao) {
                 this.cliente = cliente || Cliente.newClient();
+                if(this.cliente.uf)
+                    this.consultaMunicipios({value: this.cliente.uf} as MatSelectChange);
+            }
+            this.consultaUFs();
         });
     }
 
-    salvar(){
-        if(this.edicao) {
+    salvar() {
+        if (this.edicao) {
             this.clienteService.editar(this.cliente);
             this.router.navigate(['/consulta']);
         } else {
@@ -67,5 +81,18 @@ export class Cadastro implements OnInit{
         this.cliente = Cliente.newClient();
     }
 
+    consultaUFs() {
+        this.brasilApiService.getUFs().subscribe({
+            next: estados => this.estados = estados,
+            error: erro => this.notificacao.notificar(erro.message)
+        });
+    }
 
+    consultaMunicipios(event: MatSelectChange){
+        let uf = event.value;
+        this.brasilApiService.getMunicipios(uf).subscribe({
+            next: response => this.municipios = response,
+            error: erro => this.notificacao.notificar(erro.message)
+        });
+    }
 }

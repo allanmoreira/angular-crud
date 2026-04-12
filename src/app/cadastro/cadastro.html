@@ -20,9 +20,7 @@
                                    [(ngModel)]="cliente.nome"
                                    ngModel required>
                         </mat-form-field>
-                    </div>
 
-                    <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="16px">
                         <mat-form-field class="full-width">
                             <mat-label>Email</mat-label>
                             <input matInput
@@ -39,15 +37,33 @@
                                    mask="000.000.000-00"
                                    name="cpf" ngModel>
                         </mat-form-field>
-                    </div>
 
-                    <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="16px">
                         <mat-form-field class="full-width">
                             <mat-label>Data de Nascimento</mat-label>
                             <input matInput
                                    [(ngModel)]="cliente.dataNascimento"
                                    mask="00/00/0000"
                                    name="dataNascimento" ngModel>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="start" fxLayoutGap="16px">
+                        <mat-form-field class="full-width">
+                            <mat-label>Estado</mat-label>
+                            <mat-select [(value)]="cliente.uf" (selectionChange)="consultaMunicipios($event)">
+                                @for (estado of estados; track estado.sigla) {
+                                    <mat-option [value]="estado.sigla">{{ estado.nome }}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field class="full-width">
+                            <mat-label>Município</mat-label>
+                            <mat-select [(value)]="cliente.municipio">
+                                @for (municipio of municipios; track municipio.codigo_ibge) {
+                                    <mat-option [value]="municipio.codigo_ibge">{{ municipio.nome }}</mat-option>
+                                }
+                            </mat-select>
                         </mat-form-field>
                     </div>
                 </mat-card-content>
