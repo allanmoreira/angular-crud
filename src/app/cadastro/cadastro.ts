@@ -8,6 +8,7 @@ import {MatIcon} from "@angular/material/icon";
 import {Cliente} from "./cliente";
 import {ClienteService} from "../service/cliente.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {NgxMaskDirective, provideNgxMask} from "ngx-mask";
 
 @Component({
     selector: 'app-cadastro',
@@ -23,7 +24,11 @@ import {ActivatedRoute, Router} from "@angular/router";
         MatInput,
         MatButton,
         MatCardActions,
-        MatIcon
+        MatIcon,
+        NgxMaskDirective
+    ],
+    providers: [
+        provideNgxMask()
     ],
     templateUrl: './cadastro.html',
     styleUrl: './cadastro.scss',
